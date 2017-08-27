@@ -222,6 +222,7 @@ sub subscribe_async
    }
    else {
       push @{ $self->{pre_registration}{$name} }, $code;
+      return $code;
    }
 }
 
@@ -297,6 +298,12 @@ sub fire_sync
 {
    my $self = shift;
    $self->fire_async( @_ )->get;
+}
+
+sub unsubscribe
+{
+   my ( $self, $name, $code ) = @_;
+   $self->{events}{$name}->unsubscribe( $code );
 }
 
 =head1 TODO

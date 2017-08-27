@@ -65,6 +65,7 @@ sub subscribe
    my ( $code ) = @_;
 
    push @{ $self->{subscribers} }, $code;
+   return $code;
 }
 
 =head2 subscribers
@@ -79,6 +80,15 @@ sub subscribers
 {
    my $self = shift;
    return @{ $self->{subscribers} };
+}
+
+sub unsubscribe
+{
+   my ( $self, $code ) = @_;
+   for ( 0 .. $#{ $self->{subscribers} } ) {
+      return splice @{ $self->{subscribers} }, $_, 1
+         if $self->{subscribers}->[$_] eq $code;
+   }
 }
 
 =head1 EXPECTED METHODS
