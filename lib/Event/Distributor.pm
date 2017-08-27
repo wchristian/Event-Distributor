@@ -306,6 +306,18 @@ sub unsubscribe
    $self->{events}{$name}->unsubscribe( $code );
 }
 
+sub subscribers_for
+{
+   my ( $self, $name ) = @_;
+   $self->{events}{$name}->subscribers;
+}
+
+sub reactions_for
+{
+   my ( $self, $name, @args ) = @_;
+   map { my $sub = $_; sub { $sub->( $self, @args ) } } $self->subscribers_for( $name );
+}
+
 =head1 TODO
 
 Some of these ideas appear in the "Event-Reflexive Progamming" series of blog
